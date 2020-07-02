@@ -24,6 +24,9 @@ BuildWorkflow:
     - build
     - package_module_nupkg
 
+  hqrmtest:
+    - DscResource_Tests_Stop_On_Fail
+
   test:
     - Pester_Tests_Stop_On_Fail
     - Pester_if_Code_Coverage_Under_Threshold
@@ -48,6 +51,14 @@ Pester:
   CodeCoverageThreshold: 50
   CodeCoverageOutputFile: JaCoCo_coverage.xml
   CodeCoverageOutputFileEncoding: ascii
+
+DscTest:
+  ExcludeTag:
+    - 'Common Tests - New Error-Level Script Analyzer Rules'
+  Tag:
+  ExcludeSourceFile:
+    - output
+  ExcludeModuleFile:
 
 Resolve-Dependency:
   Gallery: 'PSGallery'
