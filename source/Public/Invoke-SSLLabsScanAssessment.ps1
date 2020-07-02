@@ -8,20 +8,30 @@ function Invoke-SSLLabsScanAssessment
         This function invokes an SSL Labs scan assessment of a website
 
     .PARAMETER HostName
+        Specifies the hostname for the scan
 
     .PARAMETER Publish
+        Specifies whether to publish the scan results
 
     .PARAMETER StartNew
+        Specifies whether to start a new scan
 
     .PARAMETER FromCache
+        Specifies whether to retrieve a scan from the cache
 
     .PARAMETER MaxAge
+        Specifies the maximum age in hours of a scan to retrieve from the cache
 
     .PARAMETER All
+        If specified with a value of 'on', full information on individual endpoints will be returned.
+        If specified with a value of 'done', full information on individual endpoints will only be returned if the
+        assessment is complete.
 
     .PARAMETER IgnoreMismatch
+        Specifies whether to ignore mismatches between the server certificate and the assessment hostname.
 
     .PARAMETER PollingInterval
+        Specifies the polling interval in seconds between scan status checks.
 
     .INPUTS
         None

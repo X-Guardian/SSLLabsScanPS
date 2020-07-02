@@ -2,32 +2,30 @@ function Get-SSLLabsScanEndpointData
 {
     <#
     .SYNOPSIS
-        Invokes an SSL Labs scan assessment of a website
+        Gets the endpoint data for a scan
 
     .DESCRIPTION
-        This function invokes an SSL Labs scan assessment of a website
+        This function gets the endpoint data for a scan
 
     .PARAMETER HostName
+        Specifies the hostname of the scan.
 
-    .PARAMETER Publish
-
-    .PARAMETER StartNew
+    .PARAMETER IPAddress
+        Specifies the ip address of the host in the scan.
 
     .PARAMETER FromCache
+        Specifies whether to retrieve the scan from the cache.
 
-    .PARAMETER MaxAge
-
-    .PARAMETER
     .INPUTS
         None
 
     .OUTPUTS
-        SSLLabsScan.Info
+        SSLLabsScan.EndPointData
 
     .EXAMPLE
-        Invoke-SSLLabsScanAssessment
+        Get-SSLLabsScanEndpointData -HostName www.bbc.co.uk -IPAddress 1.1.1.1
 
-        Invokes an SSL Labs scan assessment of a website
+        Gets the endpoint data for a scan
 #>
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     [OutputType( { ($script:ApiPropertes | Where-Object -Property ApiName -eq 'info').TypeName })]

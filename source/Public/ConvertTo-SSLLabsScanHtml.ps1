@@ -8,8 +8,10 @@ function ConvertTo-SSLLabsScanHtml
         This function converts an SSL Labs Scan to an HTML report
 
     .PARAMETER EndPointData
+        Specifies the endpoint data to use for the report.
 
     .PARAMETER Path
+        Specifies the output path for the report.
 
     .INPUTS
         None
