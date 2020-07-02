@@ -18,15 +18,11 @@ BuildWorkflow:
   build:
     - Clean
     - Build_Module_ModuleBuilder
-    - Build_NestedModules_ModuleBuilder
     - Create_changelog_release_output
 
   pack:
     - build
     - package_module_nupkg
-
-  hqrmtest:
-    - DscResource_Tests_Stop_On_Fail
 
   test:
     - Pester_Tests_Stop_On_Fail
@@ -53,14 +49,6 @@ Pester:
   CodeCoverageOutputFile: JaCoCo_coverage.xml
   CodeCoverageOutputFileEncoding: ascii
 
-DscTest:
-  ExcludeTag:
-    - 'Common Tests - New Error-Level Script Analyzer Rules'
-  Tag:
-  ExcludeSourceFile:
-    - output
-  ExcludeModuleFile:
-
 Resolve-Dependency:
   Gallery: 'PSGallery'
   AllowPrerelease: false
@@ -84,6 +72,6 @@ TaskHeader: |
 GitHubConfig:
   GitHubFilesToAdd:
     - 'CHANGELOG.md'
-  GitHubConfigUserName: dscbot
-  GitHubConfigUserEmail: dsccommunity@outlook.com
+  GitHubConfigUserName: githubbot
+  GitHubConfigUserEmail: githubbot@guardian-teck.co.uk
   UpdateChangelogOnPrerelease: false

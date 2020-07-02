@@ -15,6 +15,7 @@ variables:
   buildArtifactName: output
   testResultFolderName: testResults
   testArtifactName: testResults
+  codecovTestArtifactName: codecovTestResults
 
 stages:
   - stage: Build
@@ -39,12 +40,13 @@ stages:
               pwsh: true
             env:
               ModuleVersion: $(gitVersion.NuGetVersionV2)
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish Build Artifact'
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish Pipeline Artifact'
             inputs:
-              pathToPublish: 'output/'
-              artifactName: 'output'
-              publishLocation: 'Container'
+              targetPath: 'output/'
+              artifact: $(buildArtifactName)
+              publishLocation: 'pipeline'
+              parallel: true
 
   - stage: Test
     dependsOn: Build
@@ -55,13 +57,11 @@ stages:
           vmImage: 'windows-2019'
         timeoutInMinutes: 0
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: test
             displayName: 'Run HQRM Test'
@@ -83,13 +83,11 @@ stages:
         pool:
           vmImage: 'ubuntu 16.04'
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: test
             displayName: 'Run Tests'
@@ -110,13 +108,11 @@ stages:
         pool:
           vmImage: 'windows-2019'
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: test
             displayName: 'Run Tests'
@@ -138,13 +134,11 @@ stages:
         pool:
           vmImage: 'windows-2019'
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: test
             displayName: 'Run Tests'
@@ -159,12 +153,12 @@ stages:
               testResultsFormat: 'NUnit'
               testResultsFiles: '$(buildFolderName)/$(testResultFolderName)/NUnit*.xml'
               testRunTitle: 'Windows Server (Windows PowerShell)'
-          - task: PublishBuildArtifacts@1
-            displayName: 'Publish Test Artifact'
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish Codecov.io Test Artifact'
             inputs:
-              pathToPublish: '$(buildFolderName)/$(testResultFolderName)/'
-              artifactName: $(testArtifactName)
-              publishLocation: 'Container'
+              targetPath: '$(buildArtifactName)/testResults/'
+              artifactName: $(codecovTestArtifactName)
+              parallel: true
 
       - job: test_macos
         displayName: 'macOS'
@@ -172,13 +166,11 @@ stages:
         pool:
           vmImage: 'macos-latest'
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: test
             displayName: 'Run Tests'
@@ -214,13 +206,12 @@ stages:
               downloadType: 'single'
               artifactName: $(buildArtifactName)
               downloadPath: '$(Build.SourcesDirectory)'
-          - task: DownloadBuildArtifacts@0
+          - task: DownloadPipelineArtifact@2
             displayName: 'Download Test Artifact'
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: $(testArtifactName)
-              downloadPath: '$(Build.SourcesDirectory)/$(buildFolderName)'
+              artifactName: $(codecovTestArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)/$(codecovTestArtifactName)'
           - task: PublishCodeCoverageResults@1
             displayName: 'Publish Azure Code Coverage'
             condition: succeededOrFailed()
@@ -250,13 +241,12 @@ stages:
         pool:
           vmImage: 'ubuntu 16.04'
         steps:
-          - task: DownloadBuildArtifacts@0
-            displayName: 'Download Build Artifact'
+          - task: DownloadPipelineArtifact@2
+            displayName: 'Download Pipeline Artifact'
             inputs:
               buildType: 'current'
-              downloadType: 'single'
-              artifactName: 'output'
-              downloadPath: '$(Build.SourcesDirectory)'
+              artifactName: $(buildArtifactName)
+              targetPath: '$(Build.SourcesDirectory)/$(buildArtifactName)'
           - task: PowerShell@2
             name: publishRelease
             displayName: 'Publish Release'
