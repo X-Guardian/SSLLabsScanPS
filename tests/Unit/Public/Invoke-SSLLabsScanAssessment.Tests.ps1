@@ -1,6 +1,6 @@
 <#
 .Synopsis
-   Tests for Get-SSLLabsScanAssessment
+   Tests for Invoke-SSLLabsScanAssessment
 #>
 
 [CmdletBinding()]
@@ -13,7 +13,7 @@ $ProjectName = 'SSLLabsScanPS'
 Import-Module $ProjectName
 
 InModuleScope $ProjectName {
-    Describe 'SSLLabsScanPS/Get-SSLLabsScanAssessment' {
+    Describe 'SSLLabsScanPS/Invoke-SSLLabsScanAssessment' {
         Context 'When successfully invoked' {
             BeforeAll {
                 $testHostName = 'www.bbc.co.uk'
