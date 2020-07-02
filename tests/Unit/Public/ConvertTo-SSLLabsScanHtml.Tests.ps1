@@ -18,6 +18,7 @@ InModuleScope $ProjectName {
             BeforeAll {
                 $testEndPointData = Get-Content -Path "$PSScriptRoot\..\Resource\testEndpoint.json" |
                     ConvertFrom-Json
+                $testEndPointData.details.hostStartTime = [DateTime]$testEndPointData.details.hostStartTime
 
                 Mock -CommandName Out-File -RemoveParameterType Encoding
 
