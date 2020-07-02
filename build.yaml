@@ -3,7 +3,6 @@
 #          ModuleBuilder Configuration             #
 ####################################################
 CopyDirectories:
-  - en-US
   - resources
 Encoding: UTF8
 VersionedOutputDirectory: true
