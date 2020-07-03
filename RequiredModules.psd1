@@ -15,4 +15,5 @@
     ChangelogManagement         = 'latest'
     Sampler                     = 'latest'
     MarkdownLinkCheck           = 'latest'
+    'DscResource.Test'          = 'latest'
 }
