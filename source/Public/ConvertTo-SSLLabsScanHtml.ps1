@@ -1,5 +1,4 @@
-function ConvertTo-SSLLabsScanHtml
-{
+function ConvertTo-SSLLabsScanHtml {
     <#
     .SYNOPSIS
         Converts an SSL Labs Scan to an HTML report
@@ -11,7 +10,8 @@ function ConvertTo-SSLLabsScanHtml
         Specifies the endpoint data to use for the report.
 
     .PARAMETER Path
-        Specifies the output path for the report.
+        Specifies the output path for the report. If not specified, this defaults to the user's 'Documents' folder,
+        with a file name of <hostName>-SSLLabsScanReport-<yyyyMMdd-HHmmss>.html'.
 
     .INPUTS
         None
@@ -24,7 +24,7 @@ function ConvertTo-SSLLabsScanHtml
 
         Converts an SSL Labs Scan to an HTML report
 #>
-    [CmdletBinding()]
+    [CmdletBinding(PositionalBinding = $false)]
     [OutputType([System.String])]
     param(
         [Parameter(Mandatory)]
@@ -36,13 +36,12 @@ function ConvertTo-SSLLabsScanHtml
         $Path
     )
 
-    $hostName = $EndPointData[0].hostName
+    $hostName = $EndPointData[0].host
     $scanDate = $EndPointData[0].details.hostStartTime
 
     $htmlBody = [System.String]::Empty
 
-    if (-not $PSBoundParameters.ContainsKey('Path'))
-    {
+    if (-not $PSBoundParameters.ContainsKey('Path')) {
         $fileName = "$hostName-SSLLabsScanReport-$($scanDate.ToString('yyyyMMdd-HHmmss')).html"
         $Path = Join-Path -Path ([Environment]::GetFolderPath('MyDocuments')) -ChildPath $fileName
     }
@@ -57,15 +56,15 @@ function ConvertTo-SSLLabsScanHtml
 
     $preContent = "<h2>$header</h2>"
 
-    foreach ($endpoint in $EndpointData)
-    {
+    foreach ($endpoint in $EndpointData) {
+        Write-Verbose -Message "Converting scan for endpoint $($endpoint.ipAddress)"
+
         $protocols = @()
-        foreach ($protocol in $EndPointData.details.protocols)
-        {
+        foreach ($protocol in $endpoint.details.protocols) {
             $protocols += "$($protocol.name) v$($protocol.version)"
         }
 
-        $cipherSuites = ($EndPointData.details.suites.list.name | Out-String).Trim() -replace ('\r\n', '<br/>')
+        $cipherSuites = ($endpoint.details.suites.list.name | Out-String).Trim() -replace ('\r\n', '<br/>')
 
         $openSslCcsStatusMapping = @{
             -1 = 'Test Failed'
@@ -75,7 +74,7 @@ function ConvertTo-SSLLabsScanHtml
             3  = 'Vulnerable and Exploitable'
         }
 
-        $openSslCcsStatus = $openSslCcsStatusMapping[$EndPointData.details.openSslCcs]
+        $openSslCcsStatus = $openSslCcsStatusMapping[$endpoint.details.openSslCcs]
 
         $openSslLuckyMinus20StatusMapping = @{
             -1 = 'Test Failed'
@@ -84,7 +83,7 @@ function ConvertTo-SSLLabsScanHtml
             2  = 'Vulnerable and Insecure'
         }
 
-        $openSslLuckyMinus20Status = $openSslLuckyMinus20StatusMapping[$EndPointData.details.openSSLLuckyMinus20]
+        $openSslLuckyMinus20Status = $openSslLuckyMinus20StatusMapping[$endpoint.details.openSSLLuckyMinus20]
 
         $poodleTlsStatusMapping = @{
             -3 = 'Timeout'
@@ -95,29 +94,34 @@ function ConvertTo-SSLLabsScanHtml
             2  = 'Vulnerable'
         }
 
-        $poodleTlsStatus = $poodleTlsStatusMapping[$EndPointData.details.poodleTls]
+        $poodleTlsStatus = $poodleTlsStatusMapping[$endpoint.details.poodleTls]
 
         $reportData = [PSCustomObject][Ordered]@{
-            'IP Address'                    = $EndPointData.ipAddress
-            'Grade'                         = $EndPointData.grade
-            'Grade Ignoring Trust'          = $EndPointData.gradeTrustIgnored
-            'Has Warnings'                  = $EndPointData.hasWarnings
-            'Is Exceptional'                = $EndPointData.isExceptional
-            'Certificate Subject'           = $EndPointData.details.cert.subject
+            'Server Name'                   = $endpoint.serverName
+            'Grade'                         = $endpoint.grade
+            'Grade Ignoring Trust'          = $endpoint.gradeTrustIgnored
+            'Has Warnings'                  = $endpoint.hasWarnings
+            'Is Exceptional'                = $endpoint.isExceptional
+            'Certificate Subject'           = $endpoint.details.cert.subject
             'Supported Protocols'           = $protocols -join ', '
             'Supported Cipher Suites'       = $cipherSuites
-            'BEAST Vulnerable'              = $EndPointData.details.vulnBeast
-            'Heartbleed Vulnerable'         = $EndPointData.details.Heartbleed
-            'Poodle Vulnerable'             = $EndPointData.details.poodle
+            'BEAST Vulnerable'              = $endpoint.details.vulnBeast
+            'Heartbleed Vulnerable'         = $endpoint.details.Heartbleed
+            'Poodle Vulnerable'             = $endpoint.details.poodle
             'PoodleTLS Status'              = $poodleTlsStatus
-            'FREAK Vulnerable'              = $EndPointData.details.freak
-            'Drown Vulnerable'              = $EndPointData.details.drownVulnerable
+            'FREAK Vulnerable'              = $endpoint.details.freak
+            'Drown Vulnerable'              = $endpoint.details.drownVulnerable
             'OpenSSL CCS Status'            = $openSslCcsStatus
             'OpenSSL Lucky Minus 20 Status' = $openSslLuckyMinus20Status
         }
 
-        $htmlBody += $reportData | ConvertTo-Html -As List -Fragment
+        $endpointPreContent = @(
+            '<h3>'
+            "IP Address: $($endpoint.ipAddress)"
+            '</h3>'
+        )
 
+        $htmlBody += $reportData | ConvertTo-Html -As List -PreContent $endpointPreContent -Fragment
     }
 
     $htmlReport = ConvertTo-Html -Head $inlineStyleSheet -PreContent $preContent -PostContent $htmlBody
