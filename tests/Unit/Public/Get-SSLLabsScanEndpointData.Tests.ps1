@@ -36,7 +36,7 @@ InModuleScope $ProjectName {
             }
 
             It 'Should return the correct results' {
-                $result.hostName | Should -Be $testHostName
+                $result.host | Should -Be $testHostName
                 $result.ipAddress | Should -Be $testIPAddress
                 $result.details.hostStartTime | Should -BeOfType System.DateTime
             }
