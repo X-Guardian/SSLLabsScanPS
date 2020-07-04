@@ -37,15 +37,15 @@ function Invoke-SSLLabsScanAssessment
         None
 
     .OUTPUTS
-        SSLLabsScan.Info
+        SSLLabsScan.HostData
 
     .EXAMPLE
-        Invoke-SSLLabsScanAssessment
+        Invoke-SSLLabsScanAssessment -HostName 'www.bbc.co.uk' -StartNew
 
-        Invokes an SSL Labs scan assessment of a website
+        Invokes a new SSL Labs scan assessment of a the bbc web site
 #>
     [CmdletBinding(DefaultParameterSetName = 'Default')]
-    [OutputType( { ($script:ApiPropertes | Where-Object -Property ApiName -eq 'info').TypeName })]
+    [OutputType( { ($script:ApiPropertes | Where-Object -Property ApiName -eq 'Analyze').TypeName })]
     param(
         [Parameter(Mandatory)]
         [System.String]
@@ -123,11 +123,17 @@ function Invoke-SSLLabsScanAssessment
 
     Write-Verbose "Invoking SSL Labs Scan API Analysis on host $HostName"
 
+    $progressActivityMessage = "Checking SSL Labs Scan API Analysis on host $HostName"
+
     $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $initialQueryParams -Verbose:$false
+
+    $retryCount = 0
 
     while ($result.status -ne 'READY' -and $result.status -ne 'ERROR')
     {
-        Write-Verbose "Checking SSL Labs Scan API Analysis on host $HostName, last status: $($result.status)"
+        $retryCount++
+
+        Write-Progress -Activity $progressActivityMessage -Status "Status: $($result.status), $retryCount"
 
         Start-Sleep -Seconds $PollingInterval
 
@@ -137,6 +143,14 @@ function Invoke-SSLLabsScanAssessment
     # Convert Unix time fields to PowerShell DateTime objects
     $result.startTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($result.startTime)).UtcDateTime
     $result.testTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($result.testTime)).UtcDateTime
+
+    foreach ($endpoint in $result.endpoints)
+    {
+        $endpoint | Add-Member -Name 'host' -Value $HostName -MemberType NoteProperty
+        $endpoint.details.hostStartTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($endpoint.details.hostStartTime)).UtcDateTime
+    }
+
+    Write-Progress -Activity $progressActivityMessage -Completed
 
     return $result
 }
