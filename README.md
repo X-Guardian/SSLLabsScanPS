@@ -46,6 +46,10 @@ $EndPointData = Get-SSLLabsScanEndpointData -HostName www.mwam.com -IPAddress '1
 ConvertTo-SSLLabsScanHtml -EndpointData $hostData.endpoints
 ```
 
+## Change log
+
+A full list of changes in each version can be found in the [change log](CHANGELOG.md).
+
 ## Licensing
 
 SSLLabsScanPS is licensed under the [MIT license](LICENSE).
