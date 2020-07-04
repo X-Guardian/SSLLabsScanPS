@@ -1,8 +1,8 @@
 # SSLLabsScanPS
 
-[![Build Status](https://dev.azure.com/simonheather99/SSLLabsScanPS/_apis/build/status/simonheather99.SSLLabsScanPS?branchName=master)](https://dev.azure.com/simonheather99/SSLLabsScanPS/_build/latest?definitionId=4&branchName=master)
-![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/simonheather99/SSLLabsScanPS/4/master)
-[![Azure DevOps tests](https://img.shields.io/azure-devops/tests/simonheather99/SSLLabsScanPS/4/master)](https://simonheather99.visualstudio.com/SSLLabsScanPS/_test/analytics?definitionId=4&contextType=build)
+[![Build Status](https://dev.azure.com/simonheather99/SSLLabsScanPS/_apis/build/status/X-Guardian.SSLLabsScanPS?branchName=master)](https://dev.azure.com/simonheather99/SSLLabsScanPS/_build/latest?definitionId=8&branchName=master)
+![Azure DevOps coverage (branch)](https://img.shields.io/azure-devops/coverage/simonheather99/SSLLabsScanPS/8/master)
+[![Azure DevOps tests](https://img.shields.io/azure-devops/tests/simonheather99/SSLLabsScanPS/8/master)](https://simonheather99.visualstudio.com/SSLLabsScanPS/_test/analytics?definitionId=8&contextType=build)
 [![PowerShell Gallery (with prereleases)](https://img.shields.io/powershellgallery/vpre/SSLLabsScanPS?label=SSLLabsScanPS%20Preview)](https://www.powershellgallery.com/packages/SSLLabsScanPS/)
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/SSLLabsScanPS?label=SSLLabsScanPS)](https://www.powershellgallery.com/packages/SSLLabsScanPS/)
 
@@ -17,7 +17,7 @@ full release to [PowerShell Gallery](https://www.powershellgallery.com/).
 
 ## Installation
 
-You can get latest release of the SSLLabsScanPS module on the [PowerShell Gallery](https://www.powershellgallery.com/packages/SSLLabsScanPS)
+You can get the latest release of the SSLLabsScanPS module on the [PowerShell Gallery](https://www.powershellgallery.com/packages/SSLLabsScanPS)
 
 ```PowerShell
 Install-Module -Name SSLLabsScanPS
@@ -42,8 +42,8 @@ ConvertTo-SSLLabsScanHtml -EndpointData $hostData.endpoints
 ### Retrive a cached assessment of a particular host of a website and produce a summary HTML report
 
 ```PowerShell
-$EndPointData = Get-SSLLabsScanEndpointData -HostName www.mwam.com -IPAddress '18.132.32.101' -FromCache
-ConvertTo-SSLLabsScanHtml -EndpointData $hostData.endpoints
+$endPointData = Get-SSLLabsScanEndpointData -HostName www.mwam.com -IPAddress '18.132.32.101' -FromCache
+ConvertTo-SSLLabsScanHtml -EndpointData $endPointData
 ```
 
 ## Change log
