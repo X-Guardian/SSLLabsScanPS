@@ -11,6 +11,7 @@ trigger:
     exclude:
     - "*-*"
 variables:
+  azDoOrgName:  simonheather99
   buildArtifactName: output
   testResultFolderName: testResults
   testArtifactName: testResults
@@ -205,7 +206,7 @@ stages:
           eq(variables['Build.SourceBranch'], 'refs/heads/master'),
           startsWith(variables['Build.SourceBranch'], 'refs/tags/')
         ),
-        contains(variables['System.TeamFoundationCollectionUri'], 'dsccommunity')
+        contains(variables['System.TeamFoundationCollectionUri'], variables.azDoOrgName)
       )
     jobs:
       - job: Deploy_Module
