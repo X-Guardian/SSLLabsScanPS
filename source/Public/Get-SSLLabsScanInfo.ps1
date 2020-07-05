@@ -32,7 +32,7 @@ function Get-SSLLabsScanInfo
     }
     catch
     {
-        $errorRecord = Build-ErrorRecord -Exception $_.Exception
+        $errorRecord = New-ErrorRecord -Exception $_.Exception
         $PSCmdlet.ThrowTerminatingError($errorRecord)
     }
 

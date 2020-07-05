@@ -1,6 +1,6 @@
 <#
 .Synopsis
-   Tests for Build-ErrorRecord
+   Tests for New-ErrorRecord
 #>
 
 [CmdletBinding()]
@@ -13,12 +13,12 @@ $ProjectName = 'SSLLabsScanPS'
 Import-Module $ProjectName
 
 InModuleScope $ProjectName {
-    Describe 'SSLLabsScanPS/Build-ErrorRecord' {
+    Describe 'SSLLabsScanPS/New-ErrorRecord' {
         Context 'When successfully invoked' {
             BeforeAll {
                 $mockErrorMessage = 'Error Message'
                 $mockException = [System.Exception]::new($mockErrorMessage)
-                $result = Build-ErrorRecord -Exception $mockException
+                $result = New-ErrorRecord -Exception $mockException
             }
 
             It 'Should return the correct results' {

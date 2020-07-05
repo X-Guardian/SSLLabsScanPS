@@ -1,11 +1,11 @@
-function Build-ErrorRecord
+function New-ErrorRecord
 {
     <#
     .SYNOPSIS
-        Build an error record from an exception object.
+        Creates an error record from an exception object.
 
     .DESCRIPTION
-        This function builds an error record from an exception object.
+        This function creates an error record from an exception object.
 
     .PARAMETER Exception
         Specifies the exception object to include in the error record.
@@ -17,10 +17,12 @@ function Build-ErrorRecord
         System.Management.Automation.ErrorRecord
 
     .EXAMPLE
-        Build-ErrorRecord -Exception $exception
+        New-ErrorRecord -Exception $exception
 
-        Builds an error record containing the specified exception.
+        Creates an error record containing the specified exception.
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '',
+        Justification = 'Non state changing')]
     [CmdletBinding()]
     param(
         [Parameter(

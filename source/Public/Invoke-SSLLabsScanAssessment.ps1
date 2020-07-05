@@ -131,7 +131,7 @@ function Invoke-SSLLabsScanAssessment
     }
     catch
     {
-        $errorRecord = Build-ErrorRecord -Exception $_.Exception
+        $errorRecord = New-ErrorRecord -Exception $_.Exception
         $PSCmdlet.ThrowTerminatingError($errorRecord)
     }
 
@@ -151,7 +151,7 @@ function Invoke-SSLLabsScanAssessment
         }
         catch
         {
-            $errorRecord = Build-ErrorRecord -Exception $_.Exception
+            $errorRecord = New-ErrorRecord -Exception $_.Exception
             $PSCmdlet.ThrowTerminatingError($errorRecord)
         }
     }
