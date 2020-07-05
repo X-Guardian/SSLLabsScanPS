@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed unused API details.
   - Standardised formatting.
   - Updated pull request template.
+  - Added Wiki.
 - ConvertTo-SSLLabsScanHtml:
   - Documented path parameter in comment based help.
   - Disabled positional binding.

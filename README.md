@@ -46,6 +46,11 @@ $endPointData = Get-SSLLabsScanEndpointData -HostName www.mwam.com -IPAddress '1
 ConvertTo-SSLLabsScanHtml -EndpointData $endPointData
 ```
 
+## Documentation
+
+For a full list of functions in SSLLabsScanPS and examples on their use, check
+out the [SSLLabsScanPS wiki](https://github.com/X-Guardian/SSLLabsScanPS/wiki).
+
 ## Change log
 
 A full list of changes in each version can be found in the [change log](CHANGELOG.md).
