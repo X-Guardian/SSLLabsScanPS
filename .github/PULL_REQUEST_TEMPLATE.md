@@ -43,7 +43,5 @@
       (if applicable).
 - [ ] Documentation added/updated in README.md.
 - [ ] Comment-based help added/updated for all new/changed functions.
-- [ ] Localization strings added/updated in all localization files as appropriate.
 - [ ] Examples appropriately added/updated.
 - [ ] Unit tests added/updated.
-- [ ] Integration tests added/updated (where possible).
