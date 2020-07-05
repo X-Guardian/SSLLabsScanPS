@@ -2,10 +2,10 @@ function Build-ErrorRecord
 {
     <#
     .SYNOPSIS
-        Build an error record.
+        Build an error record from an exception object.
 
     .DESCRIPTION
-        This function builds an error record.
+        This function builds an error record from an exception object.
 
     .PARAMETER Exception
         Specifies the exception object to include in the error record.
