@@ -115,5 +115,5 @@
       "drownErrors": false,
       "drownVulnerable": false
     },
-    "hostName": "www.bbc.co.uk"
+    "host": "www.bbc.co.uk"
   }

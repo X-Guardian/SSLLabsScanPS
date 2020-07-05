@@ -51,19 +51,13 @@ Function Invoke-SSLLabsScanApi
         $uri = $endpoint
     }
 
-    Write-Debug -Message "Invoking RestMethod with URI $Uri"
+    Write-Debug -Message "Invoking Web Request with URI $Uri"
 
-    # Disable Write-Progress for Invoke-RestMethod to improve performance
+    # Disable Write-Progress for Invoke-WebRequest to improve performance
     $ProgressPreference = 'SilentlyContinue'
 
-    try
-    {
-        $result = Invoke-RestMethod -Uri $Uri
-    }
-    catch
-    {
-        throw $_
-    }
+    #$result = Invoke-WebRequest -Uri $Uri
+    $result = Invoke-RestMethod -Uri $Uri
 
     $typeName = ($script:apiProperties | Where-Object -Property 'ApiName' -eq $ApiName).TypeName
     $result.PSTypeNames.Insert(0, $typeName)

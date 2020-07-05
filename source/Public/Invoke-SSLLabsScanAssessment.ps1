@@ -125,7 +125,15 @@ function Invoke-SSLLabsScanAssessment
 
     $progressActivityMessage = "Checking SSL Labs Scan API Analysis on host $HostName"
 
-    $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $initialQueryParams -Verbose:$false
+    try
+    {
+        $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $initialQueryParams -Verbose:$false
+    }
+    catch
+    {
+        $errorRecord = New-ErrorRecord -Exception $_.Exception
+        $PSCmdlet.ThrowTerminatingError($errorRecord)
+    }
 
     $retryCount = 0
 
@@ -137,7 +145,15 @@ function Invoke-SSLLabsScanAssessment
 
         Start-Sleep -Seconds $PollingInterval
 
-        $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $queryParams -Verbose:$false
+        try
+        {
+            $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $queryParams -Verbose:$false
+        }
+        catch
+        {
+            $errorRecord = New-ErrorRecord -Exception $_.Exception
+            $PSCmdlet.ThrowTerminatingError($errorRecord)
+        }
     }
 
     # Convert Unix time fields to PowerShell DateTime objects
@@ -147,7 +163,11 @@ function Invoke-SSLLabsScanAssessment
     foreach ($endpoint in $result.endpoints)
     {
         $endpoint | Add-Member -Name 'host' -Value $HostName -MemberType NoteProperty
-        $endpoint.details.hostStartTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($endpoint.details.hostStartTime)).UtcDateTime
+
+        if ($endpoint.details.hostStartTime)
+        {
+            $endpoint.details.hostStartTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($endpoint.details.hostStartTime)).UtcDateTime
+        }
     }
 
     Write-Progress -Activity $progressActivityMessage -Completed
