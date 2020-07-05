@@ -1,4 +1,5 @@
-function Get-SSLLabsScanEndpointData {
+function Get-SSLLabsScanEndpointData
+{
     <#
     .SYNOPSIS
         Gets the endpoint data for a scan
@@ -57,7 +58,8 @@ function Get-SSLLabsScanEndpointData {
 
     $apiName = 'getEndpointData'
 
-    if ($PSCmdlet.ParameterSetName -eq 'HostData') {
+    if ($PSCmdlet.ParameterSetName -eq 'HostData')
+    {
         $IPAddress = $HostData.endpoints.ipaddress
         $HostName = $HostData.host
     }
@@ -66,11 +68,13 @@ function Get-SSLLabsScanEndpointData {
 
     $baseQueryParams += "host=$HostName"
 
-    if ($PSBoundParameters.ContainsKey('FromCache')) {
+    if ($PSBoundParameters.ContainsKey('FromCache'))
+    {
         $baseQueryParams += 'fromCache=on'
     }
 
-    foreach ($ip in $IPAddress) {
+    foreach ($ip in $IPAddress)
+    {
         $queryParams = $baseQueryParams + "s=$ip"
         Write-Verbose "Getting SSL Labs Scan endpoint data on host $HostName, IP address $ip"
 

@@ -1,4 +1,5 @@
-function ConvertTo-SSLLabsScanHtml {
+function ConvertTo-SSLLabsScanHtml
+{
     <#
     .SYNOPSIS
         Converts an SSL Labs Scan to an HTML report
@@ -41,7 +42,8 @@ function ConvertTo-SSLLabsScanHtml {
 
     $htmlBody = [System.String]::Empty
 
-    if (-not $PSBoundParameters.ContainsKey('Path')) {
+    if (-not $PSBoundParameters.ContainsKey('Path'))
+    {
         $fileName = "$hostName-SSLLabsScanReport-$($scanDate.ToString('yyyyMMdd-HHmmss')).html"
         $Path = Join-Path -Path ([Environment]::GetFolderPath('MyDocuments')) -ChildPath $fileName
     }
@@ -56,11 +58,13 @@ function ConvertTo-SSLLabsScanHtml {
 
     $preContent = "<h2>$header</h2>"
 
-    foreach ($endpoint in $EndpointData) {
+    foreach ($endpoint in $EndpointData)
+    {
         Write-Verbose -Message "Converting scan for endpoint $($endpoint.ipAddress)"
 
         $protocols = @()
-        foreach ($protocol in $endpoint.details.protocols) {
+        foreach ($protocol in $endpoint.details.protocols)
+        {
             $protocols += "$($protocol.name) v$($protocol.version)"
         }
 
