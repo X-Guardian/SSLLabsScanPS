@@ -21,7 +21,7 @@ function ConvertTo-SSLLabsScanHtml
         None
 
     .EXAMPLE
-        ConvertTo-SSLLabsScanHtml
+        ConvertTo-SSLLabsScanHtml -EndPointData $endpointData
 
         Converts an SSL Labs Scan to an HTML report
 #>
@@ -36,6 +36,11 @@ function ConvertTo-SSLLabsScanHtml
         [System.String]
         $Path
     )
+
+    if ((-not $EndPointData[0].host) -or (-not $EndPointData[0].details.hostStartTime))
+    {
+        Write-Error 'Invalid EndPointData.' -ErrorAction Stop
+    }
 
     $hostName = $EndPointData[0].host
     $scanDate = $EndPointData[0].details.hostStartTime

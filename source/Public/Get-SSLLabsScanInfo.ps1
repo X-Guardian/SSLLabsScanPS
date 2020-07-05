@@ -26,7 +26,15 @@ function Get-SSLLabsScanInfo
 
     Write-Verbose 'Getting SSL Labs Scan API Info'
 
-    $result = Invoke-SSLLabsScanApi -ApiName $apiName
+    try
+    {
+        $result = Invoke-SSLLabsScanApi -ApiName $apiName
+    }
+    catch
+    {
+        $errorRecord = Build-ErrorRecord -Exception $_.Exception
+        $PSCmdlet.ThrowTerminatingError($errorRecord)
+    }
 
-    $result
+    $result.content | ConvertFrom-Json
 }

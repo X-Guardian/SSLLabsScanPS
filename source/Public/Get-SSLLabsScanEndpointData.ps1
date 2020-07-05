@@ -78,7 +78,15 @@ function Get-SSLLabsScanEndpointData
         $queryParams = $baseQueryParams + "s=$ip"
         Write-Verbose "Getting SSL Labs Scan endpoint data on host $HostName, IP address $ip"
 
-        $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $queryParams -Verbose:$false
+        try
+        {
+            $result = Invoke-SSLLabsScanApi -ApiName $apiName -QueryParameters $queryParams -Verbose:$false
+        }
+        catch
+        {
+            $errorRecord = Build-ErrorRecord -Exception $_.Exception
+            $PSCmdlet.ThrowTerminatingError($errorRecord)
+        }
 
         $result | Add-Member -Name 'host' -Value $HostName -MemberType NoteProperty
         $result.details.hostStartTime = ([System.DateTimeOffset]::FromUnixTimeMilliSeconds($result.details.hostStartTime)).UtcDateTime
