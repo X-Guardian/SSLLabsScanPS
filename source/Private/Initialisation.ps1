@@ -5,11 +5,7 @@ $script:apiProperties = @(
     }
     @{
         ApiName  = 'Analyze'
-        TypeName = 'SSLLabsScan.Host'
-    }
-    @{
-        ApiName  = 'GetStatusCodes'
-        TypeName = 'SSLLabsScan.StatusCodes'
+        TypeName = 'SSLLabsScan.HostData'
     }
     @{
         ApiName  = 'GetEndpointData'

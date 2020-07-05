@@ -128,7 +128,7 @@ stages:
               testResultsFiles: '$(buildArtifactName)/$(testResultFolderName)/NUnit*.xml'
               testRunTitle: 'Windows Server (Windows PowerShell)'
           - task: PublishPipelineArtifact@1
-            displayName: 'Publish Codecov.io Test Artifact'
+            displayName: 'Publish Code Coverage Test Artifact'
             inputs:
               targetPath: '$(buildArtifactName)/testResults/'
               artifactName: $(codecovTestArtifactName)
@@ -192,10 +192,6 @@ stages:
               codeCoverageTool: 'JaCoCo'
               summaryFileLocation: '$(buildArtifactName)/$(codecovTestArtifactName)/JaCoCo_coverage.xml'
               pathToSources: '$(Build.SourcesDirectory)/$(buildArtifactName)/$(dscBuildVariable.RepositoryName)'
-          - script: |
-              bash <(curl -s https://codecov.io/bash) -f "./$(buildArtifactName)/$(codecovTestArtifactName)/JaCoCo_coverage.xml"
-            displayName: 'Upload to Codecov.io'
-            condition: succeededOrFailed()
 
   - stage: Deploy
     dependsOn: Test

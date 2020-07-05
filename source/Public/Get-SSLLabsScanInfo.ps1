@@ -19,7 +19,7 @@ function Get-SSLLabsScanInfo
         Gets the SSLLabs Scan API info.
 #>
     [CmdletBinding()]
-    [OutputType({($script:ApiPropertes | Where-Object -Property ApiName -eq 'info').TypeName})]
+    [OutputType( { ($script:ApiPropertes | Where-Object -Property ApiName -eq 'info').TypeName })]
     param()
 
     $apiName = 'info'
