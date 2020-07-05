@@ -52,14 +52,6 @@ Pester:
   CodeCoverageOutputFile: JaCoCo_coverage.xml
   CodeCoverageOutputFileEncoding: ascii
 
-DscTest:
-  ExcludeTag:
-    - 'Common Tests - New Error-Level Script Analyzer Rules'
-  Tag:
-  ExcludeSourceFile:
-    - output
-  ExcludeModuleFile:
-
 Resolve-Dependency:
   Gallery: 'PSGallery'
   AllowPrerelease: false
