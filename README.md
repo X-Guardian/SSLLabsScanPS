@@ -50,6 +50,14 @@ ConvertTo-SSLLabsScanHtml -EndpointData $endPointData
 
 A full list of changes in each version can be found in the [change log](CHANGELOG.md).
 
+## Features
+
+- Module built with [Module Builder](https://github.com/PoshCode/ModuleBuilder) and [Sampler](https://github.com/gaelcolas/Sampler).
+- [Pester](https://github.com/pester/Pester) unit tests.
+- Azure DevOps [CI/CD Pipeline](https://dev.azure.com/simonheather99/SSLLabsScanPS/_build?definitionId=8&_a=summary).
+- Azure DevOps Test results report.
+- Azure DevOps Code Coverage report.
+
 ## Licensing
 
 SSLLabsScanPS is licensed under the [MIT license](LICENSE).
