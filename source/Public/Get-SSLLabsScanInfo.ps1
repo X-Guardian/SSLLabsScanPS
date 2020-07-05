@@ -36,5 +36,5 @@ function Get-SSLLabsScanInfo
         $PSCmdlet.ThrowTerminatingError($errorRecord)
     }
 
-    $result.content | ConvertFrom-Json
+    $result
 }
