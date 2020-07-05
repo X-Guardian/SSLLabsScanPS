@@ -10,7 +10,7 @@ PowerShell Wrapper for the [SSL Labs Assessment API](https://github.com/ssllabs/
 
 ## Releases
 
-For each merge to the branch `master` a preview release will be
+For each merge to the branch `master` a beta release will be
 deployed to [PowerShell Gallery](https://www.powershellgallery.com/).
 Periodically a release version tag will be pushed which will deploy a
 full release to [PowerShell Gallery](https://www.powershellgallery.com/).
@@ -32,19 +32,22 @@ $hostData = Invoke-SSLLabsScanAssessment -HostName www.mwam.com -StartNew -All D
 ConvertTo-SSLLabsScanHtml -EndpointData $hostData.endpoints
 ```
 
-### Retrive a cached assessment of a website and produce a summary HTML report
+### Retrieve a cached assessment of a website and produce a summary HTML report
 
 ```PowerShell
 $hostData = Invoke-SSLLabsScanAssessment -HostName www.mwam.com -FromCache -All Done
 ConvertTo-SSLLabsScanHtml -EndpointData $hostData.endpoints
 ```
 
-### Retrive a cached assessment of a particular host of a website and produce a summary HTML report
+### Retrieve a cached assessment of a particular host of a website and produce a summary HTML report
 
 ```PowerShell
 $endPointData = Get-SSLLabsScanEndpointData -HostName www.mwam.com -IPAddress '18.132.32.101' -FromCache
 ConvertTo-SSLLabsScanHtml -EndpointData $endPointData
 ```
+
+The default location of the summary HTML report is the user's `Documents` folder,
+with a file name of `<hostName>-SSLLabsScanReport-<yyyyMMdd-HHmmss>.html`
 
 ## Documentation
 
